@@ -1,0 +1,138 @@
+enkins Master-Slave Configuration
+Key Topics Covered
+
+1. Types of Jenkins Pipelines
+* Two Main Types:
+* Scripted Pipeline: Code written directly in Jenkins UI using Groovy language
+* Declarative Pipeline: Code saved in SCM (Source Code Management like GitHub) as Jenkins file
+* Two Additional Types:
+* Multi-branch Pipeline: For handling multiple branches with separate CICD
+* Shared Library Pipeline: Reusable code across multiple projects
+
+2. Jenkins File Concept
+* Jenkins file contains pipeline code (build, test, deploy stages)
+* Saved in GitHub/SCM repository
+* Called declaratively from Jenkins UI using "Pipeline script from SCM" option
+* Jenkins automatically reads the file named "Jenkinsfile" from repository
+
+3. Master-Slave Architecture - Main Focus
+Why Master-Slave is Needed:
+* Scenario 1: Performance team running heavy load tests can slow down entire Jenkins, affecting all teams
+* Scenario 2: Multiple teams running jobs parallelly causes Jenkins slowness
+* Solution: Create separate agents/nodes for different teams to distribute workload
+Key Benefits:
+* Master remains safe and unaffected
+* Workload distributed across nodes
+* If one node goes down, only that team is affected
+* Security isolation between teams
+
+4. Practical Implementation Steps
+
+Part 1: Windows to Windows Configuration (Basic)
+Step 1: Setup Jenkins Master (Windows)
+* Install Jenkins on your local Windows machine
+* Access Jenkins at localhost:8080
+* Login with credentials (admin/admin as mentioned in session)
+Step 2: Create Agent Node
+* Go to Manage Jenkins → Nodes
+* Click "Add Node"
+* Enter node name (e.g., "Performance-Prakash" or "dev")
+* Select "Permanent Agent"
+* Click Create
+Step 3: Configure the Agent
+* Set Remote Directory path (e.g., D:\dev\Jenkins-notes\Prakash)
+* Create this folder structure on your Windows machine first
+* Select "Launch agent by connecting to controller"
+* Keep agent online as much as possible
+* Save configuration
+Step 4: Connect the Agent
+* Click on the newly created node
+* Copy the two commands provided:
+* First command: Downloads agent.jar file using curl
+* Second command: Runs the jar file with Java
+* Open Command Prompt (CMD) in the remote directory location
+* Execute both commands one by one
+* Agent should show as connected (green status)
+Step 5: Test the Configuration
+* Create or configure a job
+* In job configuration, use "Restrict where this project can be run"
+* Specify the node label (dev or performance-prakash)
+* Run the job and verify it executes on the specified node
+
+Part 2: Jenkins Master on Ubuntu with CentOS Slave (Advanced Homework)
+Requirements:
+* Jenkins Master: Ubuntu/Linux machine (AWS or GCP)
+* Slave Node 1: CentOS machine (same VPC, same subnet)
+* Slave Node 2: Windows machine (optional, more complicated)
+Key Points:
+* Install Jenkins only on Master machine
+* Install only Java on slave nodes (not Jenkins)
+* If running Maven builds, install Maven on slave nodes or use plugins from master
+* Use same connection process as Windows-to-Windows setup
+* Configure agent with appropriate
+
+Home Path for Windows
+Windows :- C:\Users\Admin\.jenkins (war) Slave :- C:\Dev\jenkins-slave
+C:\ProgramData\Jenkins\.jenkins
+
+
+Jenkins Pipeline Questions:
+1. How many types of Jenkins pipeline are there?
+Answer: Two major types - Declarative and Scripted pipeline
+2. What is the difference between scripted and declarative pipeline?
+Answer: Scripted pipeline - code is written directly in Jenkins UI. Declarative pipeline - code is saved in SCM (Source Code Management) and called from Jenkins UI via URL
+3. What is Jenkins file?
+Answer: It is a pipeline file saved in GitHub/SCM containing all the build, test, deploy steps and configurations. Since it's related to Jenkins, it's called Jenkins file.
+4. Which pipeline type uses Jenkins file?
+Answer: Declarative pipeline
+5. What are the other types of pipelines apart from scripted and declarative?
+Answer: Multi-branch pipeline and Shared library pipeline
+
+Master-Slave Configuration Questions:
+6. Why do we need master-slave configuration in Jenkins?
+Answer: To distribute workload, prevent Jenkins from becoming slow, isolate different teams' work (like performance team), and avoid security issues
+7. What is built-in node and why is it a security issue?
+Answer: Built-in node is the master node. Running jobs on it is a security issue because if one team's work affects it, all teams get impacted
+8. If a job is configured to run on a specific node and that node goes down, what happens?
+Answer: The job will wait in pending state until the node comes back online
+9. If no node is configured for a job, where will it run?
+Answer: It will run on master (built-in node)
+10. How do you troubleshoot when a Jenkins node goes down?
+Answer: Check why machine is down (disk issue, CPU, memory, port conflict), fix the machine, then reconnect the agent by running the connection commands
+
+Day-to-Day Activities Questions:
+11. What are the day-to-day activities of Jenkins?
+Answer: Upgrading Jenkins version, upgrading Java version, removing/upgrading vulnerable plugins, managing nodes, troubleshooting build failures, managing security issues
+12. What happens when unit test cases run during build?
+Answer: They are automatically executed.
+
+Jenkins Pipeline Questions:
+13. What are the types of Jenkins pipelines? (Answer: Scripted and Declarative)
+14. What is the difference between scripted and declarative pipelines?
+15. What is a Jenkins file and where is it stored?
+16. What are multi-branch pipelines and when would you use them?
+17. What is a shared library pipeline?
+
+Master-Slave Configuration Questions:
+6. Why do we need master-slave configuration in Jenkins?
+7. What happens when a slave node goes down and a job is configured to run on that specific node?
+8. How do you configure a Jenkins slave/agent node?
+9. What is the built-in node and why is it a security concern to run jobs on it?
+10. How do you troubleshoot when an agent is offline?
+Jenkins Administration Questions:
+11. What are the day-to-day activities of a Jenkins administrator?
+12. How do you take backup of Jenkins configuration?
+13. What is Jenkins home directory and what does it contain?
+14. Explain the folder structure in Jenkins home directory (jobs, logs, nodes, plugins, secrets, users, workspace)
+15. How many plugins are installed by default in Jenkins? (Answer: 100+ plugins)
+Troubleshooting Questions:
+16. What causes Jenkins to become slow?
+17. How do you troubleshoot a failed Jenkins job?
+18. What should you check in Manage Jenkins page for issues?
+19. How do you handle plugin vulnerabilities in Jenkins?
+20. What happens when Java version reaches end of life in Jenkins?
+Configuration Questions:
+21. What are common Jenkins job failure reasons?
+22. How do you restrict a job to run on a specific agent?
+23. What happens if no agent is configured for a job?
+24. How do you handle long queue of Jenkins jobs?

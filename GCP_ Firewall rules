@@ -1,0 +1,41 @@
+ Go to 👉 Google Cloud Console → VPC Network → Firewall rules
+ Click “Create firewall rule”
+
+Fill the fields carefully:
+
+Name: allow-8080
+
+Network: Select the VPC where your VM lives (usually default)
+
+Priority: Leave as 1000
+
+Direction of traffic: Ingress
+
+Action on match: Allow
+
+Targets:
+
+Either select “All instances in the network”, or
+
+Choose “Specified target tags” → add a tag like web-server
+
+Source filter:
+
+Choose “IPv4 ranges” and enter:
+
+0.0.0.0/0
+
+
+(⚠️ Opens to the world — if it’s internal use only, specify your IP range instead)
+
+Protocols and ports:
+Select Specified protocols and ports → check TCP → enter:
+
+8080
+
+
+Click Create.
+
+If you used a target tag, make sure your VM has that tag:
+
+Go to VM instances → Edit → Network tags → add web-server → Save

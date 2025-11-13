@@ -1,0 +1,123 @@
+Jenkins Pipeline - Key Topics Covered
+1. Jenkins Pipeline Introduction
+* Transitioned from Freestyle projects to Pipeline projects
+* Pipeline allows automation through code instead of manual UI configuration
+* Uses Groovy language for scripting
+* Reduces manual errors and provides better structure
+
+2. Pipeline Structure
+* Pipeline: Flow of stages and steps executed sequentially
+* Stages: Major phases (e.g., Git Clone, Build, Deploy, Send Email)
+* Steps: Individual commands within each stage
+* Agent: Defines where the pipeline executes (any Jenkins server available)
+
+3. Pipeline Syntax Generator
+* Jenkins provides a built-in syntax generator tool
+* Located in Pipeline Syntax section
+* Helps generate correct code for Git, Shell scripts, Email, and other operations
+* Eliminates manual syntax errors
+
+4. Git Integration in Pipeline
+
+* Public Repository: No credentials required
+* Private Repository: Requires username/password credentials
+* Syntax generator automatically creates proper Git commands with branch specifications
+
+5. CI/CD Trigger Configuration
+* Poll SCM: Cron expression for scheduled builds (e.g., * * * * * for every minute)
+* Trigger Options: Can be configured via UI or pipeline code
+* Only triggers when code changes are pushed to repository
+
+6. Platform-Specific Differences
+* Linux: Uses 'sh' command for shell scripts
+* Windows: Uses 'bat' command for batch files, requires environment variable setup (PATH configuration)
+
+7. Parameterized Builds
+* Allows deployment to different environments (Dev, QA, Production)
+* "Build with Parameters" option appears after configuration
+* Reduces code duplication and manual errors
+
+8. Post-Build Actions
+* Upstream/Downstream Projects: Chain multiple jobs together
+* CI job triggers CD job only when stable/successful
+* Configured in "Post Build Action"
+
+Basic Pipeline Setup:
+1. Go to Jenkins dashboard
+2. Click "New Item" or create a new job
+3. Select "Pipeline" as the job type
+4. Give it a name (e.g., "Pipeline1") and click OK
+
+Writing Pipeline Code:
+5. In the configuration page, scroll down to the "Pipeline" section
+6. Select "Pipeline script" option
+7. Write or paste your pipeline code with this structure:
+* Start with "pipeline { }"
+* Add "agent any"
+* Create "stages { }" block
+* Inside stages, define multiple "stage" blocks for different tasks
+* Each stage should have "steps { }" containing commands
+
+Sample Pipeline Structure:
+* Stage 1: Pull code from Git (use "git" command with repository URL and branch name)
+* Stage 2: Build/Compile (use "sh" for Linux or "bat" for Windows with compilation commands like "javac")
+* Stage 3: Additional stages as needed (deploy, test, send email, etc.)
+
+Using Pipeline Syntax Generator:
+8. Click on "Pipeline Syntax" link at bottom of pipeline configuration
+9. Select the action you want (e.g., "git" for Git operations, "sh" for shell commands)
+10. Fill in the required details
+11. Click "Generate Pipeline Script"
+12. Copy the generated code and paste it in your pipeline script
+
+Adding CI Trigger:
+Add trigger block after agent:
+triggers {
+    pollSCM('* * * * *')  // for every minute, adjust as needed
+}
+
+
+Post-Build Actions (for CI/CD chaining):
+13. Go to CI job configuration
+14. Add "Post-build Actions"
+15. Select "Build other projects"
+16. Enter CD job name
+17. Choose "Trigger only if build is stable"
+18. Save configuration
+
+Testing:
+19. Save your pipeline configuration
+20. Click "Build Now" or "Build with Parameters"
+21. Check console output for execution details
+22. View stage view to see pipeline flow
+
+Interview Questions
+Basic Level Questions:
+* What is the difference between Freestyle Project and Pipeline in Jenkins?
+* What is the purpose of Jenkins Pipeline?
+* Which programming language is used to write Jenkins Pipeline code?
+* What are Stages and Steps in Jenkins Pipeline?
+* What is the difference between a Stage and a Step?
+* How do you create a CI pipeline in Jenkins?
+* What is the purpose of the 'agent any' keyword in Pipeline?
+Intermediate Level Questions:
+* How do you generate Jenkins Pipeline syntax without writing it manually?
+* What is the difference between 'sh' and 'bat' commands in Jenkins Pipeline?
+* How do you configure a trigger in Jenkins Pipeline?
+* What is Poll SCM and how is it used in Jenkins Pipeline?
+* How do you handle private Git repositories in Jenkins Pipeline? What about public repositories?
+* What is a parameterized build in Jenkins and how is it useful?
+* Explain the concept of Post Build Actions in Jenkins.
+Advanced Level Questions:
+* How do you set up environment variables in Windows for Jenkins Pipeline?
+* What is the difference between setting up a pipeline for Linux vs Windows environments?
+* How do you trigger one job after another job completes successfully in Jenkins?
+* What is an Upstream project in Jenkins?
+* How do you deploy to different environments (Dev, QA, Production) using Jenkins Pipeline?
+* What is Stage View plugin in Jenkins?
+* How would you handle a situation where CI is successful but you want to trigger CD only when CI is stable?
+* What are the different options available in Post Build Actions and when would you use each?
+Practical Scenario Questions:
+* If a Jenkins Pipeline build fails, how would you debug it?
+* How do you save artifacts after a successful build in Jenkins?
+* Explain how you would set up a complete CI/CD pipeline using Jenkins Pipeline code.

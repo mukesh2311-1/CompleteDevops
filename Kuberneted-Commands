@@ -1,0 +1,47 @@
+kubectl config get-contexts
+
+GET - to get the details
+kubectl get all
+kubectl get namespaces , ns
+kubectl get nodes , no
+kubectl get pods , po
+kubectl get deployments  ,deploy
+kubectl get replicaset , rs 
+kubectl get service , svc
+
+kubectl run nginx  --image=nginx:1.16
+
+kubectl get pod nginx -o yaml
+
+kubectl create deployment nginxdeploy --image=nginx
+501  gcloud container clusters get-credentials cluster-1 --region us-central1 --project march22paid
+  502  mkdir batch-41
+  503  cd batch-41
+  504  ls
+  505  git clone https://github.com/GoogleCloudPlatform/microservices-demo.git
+  506  ls
+  507  cd microservices-demo/
+  508  ls
+  509  cd release/
+  510  ls
+  511  kubectl get po
+  512  kubectl get svc
+  513  kubectl get deploy
+  514  ls
+  515  kubectl apply -f kubernetes-manifests.yaml
+  516  kubectl get deploy
+  517  kubectl get po
+  518  kubectl get svc
+  519  kubectl get service frontend-external | awk '{print $4}'
+  520  kubectl delete po adservice-54fdcb4646-b8gp8
+  521  kubectl get po
+  522  kubectl delete po paymentservice-9ff6ffd6-588wq
+  523  kubectl get po
+  524  kubectl describe po paymentservice-9ff6ffd6-s9ktn
+  525  kubectl get deploy
+  526  kubectl delete deploy paymentservice
+  527  kubectl get po
+  528  ls
+  529  kubectl apply -f kubernetes-manifests.yaml
+  530  kubectl get po
+  531  history
